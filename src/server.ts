@@ -92,10 +92,6 @@ app.post('/users', express.json(),  (req, res) => {
 
   users.push(newUser);
 
-  console.log('---###--------User created---------###---');
-  console.log(users);
-  console.log('---###--------------------###---');
-
   res.statusCode = 201;
   res.send(newUser);
 })
