@@ -1,4 +1,8 @@
-export const getNewId = (arr: { id: number }[]): number => {
+export interface BaseObjectWithId {
+  id: number;
+}
+
+export const getNewId = (arr: BaseObjectWithId[]): number => {
   const ids = arr.map(({ id }) => id);
 
   if (ids.length === 0) {
