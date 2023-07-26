@@ -1,5 +1,6 @@
 import { initDB } from './initDB';
 import { Color } from './models/Color.model';
+import { models } from './models';
 
 const colors = [
   { name: 'Black' },
@@ -14,9 +15,9 @@ const colors = [
 const syncTables = async () => {
   initDB();
 
-  await Color.sync({ alter: true });
-
-  console.log('[Color]: ✅')
+  await Promise.all(models.map(Model => (
+    Model.sync({ alter: true }).then(() => console.log(`[${Model.name}]: ✅`))
+  )))
 
   console.log('Start data seeding');
 

@@ -1,16 +1,15 @@
-import { Controller, User } from '../types';
+import { Controller } from '../types';
 import { UserService } from '../services/user.service';
-import { ColorService } from '../services/color.service';
 
-export const getAllUsersController: Controller = (_, res) => {
+export const getAllUsersController: Controller = async (_, res) => {
   const userService = new UserService();
 
-  const users = userService.findAll();
+  const users = await userService.findAll();
 
   res.send(users);
 }
 
-export const getUserByIdController: Controller = (req, res) => {
+export const getUserByIdController: Controller = async (req, res) => {
   const userService = new UserService();
 
   const { userId: initialUserId } = req.params;
@@ -22,7 +21,7 @@ export const getUserByIdController: Controller = (req, res) => {
     return;
   }
 
-  const user = userService.findById(userId);
+  const user = await userService.findById(userId);
 
   if (!user) {
     res.sendStatus(404);
@@ -33,10 +32,9 @@ export const getUserByIdController: Controller = (req, res) => {
   res.send(user);
 }
 
-export const CreateUserController: Controller = (req, res) => {
+export const CreateUserController: Controller = async (req, res) => {
   const { carColorId, name } = req.body;
 
-  const colorService = new ColorService();
   const userService = new UserService();
 
   const isDataValid = (
@@ -52,18 +50,7 @@ export const CreateUserController: Controller = (req, res) => {
     return;
   }
 
-  const color = colorService.findById(carColorId);
-
-  if (!color) {
-    res.statusCode = 404;
-    res.send({
-      error: 'color not found'
-    })
-
-    return;
-  }
-
-  const newUser = userService.create({ carColorId, name })
+  const newUser = await userService.create({ carColorId, name })
 
   res.statusCode = 201;
   res.send(newUser);
