@@ -7,7 +7,7 @@
     "dev": "nodemon src/server.ts",
     "db-connect": "psql postgres://igor82200:@ep-mute-glade-94644838.eu-central-1.aws.neon.tech/neondb",
     "sync-tables": "npx ts-node src/syncTables.ts",
-    "build": "tsc",
+    "build": "npx tsc",
     "pre-build": "npm install; npm run build",
     "start": "node build/server.js"
   },
