@@ -1,14 +1,16 @@
 import express from 'express';
 import cors from 'cors';
-import { userRouter } from './routers/user.router';
-import { colorRouter } from './routers/color.router';
 import { initAppRoutes } from './initAppRoutes';
 import { initDB } from './initDB';
-
-const PORT = 5000;
-const CLIENT_URL = 'http://localhost:3000';
+import dotenv from 'dotenv';
 
 const serverInit = async () => {
+  dotenv.config();
+
+  const PORT = process.env.PORT;
+  const CLIENT_URL = process.env.CLIENT_URL;
+  const API_URL = `${process.env.API_URL}:${PORT}`;
+
   const app = express();
 
   app.use(cors({
@@ -20,7 +22,7 @@ const serverInit = async () => {
   initAppRoutes(app);
 
   app.listen(PORT, () => {
-    console.log(`🚀🚀🚀 Api is ready on: http://localhost:${PORT}`)
+    console.log(`🚀🚀🚀 Api is ready on: ${API_URL}`)
   })
 }
 

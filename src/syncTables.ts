@@ -1,6 +1,7 @@
 import { initDB } from './initDB';
 import { Color } from './models/Color.model';
 import { models } from './models';
+import dotenv from 'dotenv';
 
 const colors = [
   { name: 'Black' },
@@ -13,6 +14,8 @@ const colors = [
 ];
 
 const syncTables = async () => {
+  dotenv.config();
+
   initDB();
 
   await Promise.all(models.map(Model => (
