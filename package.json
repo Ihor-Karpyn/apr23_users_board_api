@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.ts",
+    "run-seeds": "npx sequelize db:seed:all",
+    "run-migrations": "npx sequelize db:migrate",
+    "run-seeds-migrate": "npm run run-migrations ; npm run run-seeds",
+    "dev": "npm run run-seeds-migrate ; nodemon src/server.ts",
     "db-connect": "psql postgres://igor82200:@ep-mute-glade-94644838.eu-central-1.aws.neon.tech/neondb",
     "sync-tables": "npx ts-node src/syncTables.ts",
     "build": "npx tsc",
-    "pre-build": "npm ci ; npm run build",
+    "pre-build": "npm ci ; npm run run-seeds-migrate ; npm run build",
     "start": "node build/server.js"
   },
   "keywords": [],
@@ -29,6 +32,7 @@
     "@types/express": "^4.17.17",
     "@types/node": "^20.4.4",
     "nodemon": "^3.0.1",
+    "sequelize-cli": "^6.6.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   }

@@ -7,7 +7,7 @@ import {
 } from 'sequelize-typescript';
 
 @Table({
-  tableName: 'colors'
+  tableName: 'colors',
 })
 
 export class Color extends Model {
