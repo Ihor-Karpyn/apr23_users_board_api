@@ -31,6 +31,7 @@ module.exports = {
   test: {
     ...dbCredentials,
     ...dialectConfig,
+    test: true,
   },
   production: {
     ...dbCredentials,
