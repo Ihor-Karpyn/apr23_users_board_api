@@ -2,6 +2,12 @@ import { User } from '../models/User.model';
 
 type CreateOptions = Pick<User, 'name' | 'carColorId'>;
 
+interface FindAllOptions {
+  limit?: number;
+  offset?: number;
+  sortBy?: string;
+}
+
 export class UserService {
   findById(id: number) {
     return User.findByPk(id);
@@ -11,7 +17,19 @@ export class UserService {
     return User.create(options);
   }
 
-  findAll() {
-    return User.findAll();
+  findAndCountAll(options: FindAllOptions = {}) {
+    const {
+      limit,
+      offset,
+      sortBy = 'id',
+    } = options;
+
+    console.log(sortBy)
+
+    return User.findAndCountAll({
+      limit,
+      offset,
+      order: [[sortBy, 'ASC']],
+    });
   }
 }

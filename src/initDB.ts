@@ -13,6 +13,7 @@ export const initDB = () => {
   return new Sequelize(
     DB_URI,
     {
+      logging: false,
       models,
       dialectOptions: {
         ssl: true,

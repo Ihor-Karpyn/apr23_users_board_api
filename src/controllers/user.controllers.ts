@@ -1,12 +1,34 @@
 import { Controller } from '../types';
 import { UserService } from '../services/user.service';
 
-export const getAllUsersController: Controller = async (_, res) => {
+const availableSortBy = ['id', 'name'];
+
+export const getAllUsersController: Controller = async (req, res) => {
   const userService = new UserService();
 
-  const users = await userService.findAll();
+  const {
+    limit = 10,
+    offset = 0,
+    sortBy = 'id',
+  } = req.query;
 
-  res.send(users);
+  const isSortByValid = typeof sortBy === 'string' && availableSortBy.includes(sortBy)
+  const isLimitValid = !Number.isNaN(Number(limit));
+  const isOffsetValid = !Number.isNaN(Number(offset));
+
+  if (!isSortByValid || !isLimitValid || !isOffsetValid) {
+    res.sendStatus(400);
+
+    return;
+  }
+
+  const results = await userService.findAndCountAll({
+    limit: Number(limit),
+    offset: Number(offset),
+    sortBy,
+  });
+
+  res.send(results);
 }
 
 export const getUserByIdController: Controller = async (req, res) => {
